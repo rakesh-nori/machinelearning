@@ -1,0 +1,315 @@
+Last login: Wed Nov 21 13:41:14 on ttys000
+rakeshs-mbp:~ RakeshNori$ python
+Python 3.6.5 |Anaconda, Inc.| (default, Apr 26 2018, 08:42:37) 
+[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> # Python version
+... import sys
+>>> print('Python: {}'.format(sys.version))
+Python: 3.6.5 |Anaconda, Inc.| (default, Apr 26 2018, 08:42:37) 
+[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
+>>> # scipy
+... import scipy
+>>> print('scipy: {}'.format(scipy.__version__))
+scipy: 1.1.0
+>>> # numpy
+... import numpy
+>>> print('numpy: {}'.format(numpy.__version__))
+numpy: 1.14.3
+>>> # matplotlib
+... import matplotlib
+>>> print('matplotlib: {}'.format(matplotlib.__version__))
+matplotlib: 2.2.2
+>>> # pandas
+... import pandas
+>>> print('pandas: {}'.format(pandas.__version__))
+pandas: 0.23.0
+>>> # scikit-learn
+... import sklearn
+>>> print('sklearn: {}'.format(sklearn.__version__))
+sklearn: 0.19.1
+>>> import pandas
+>>> from pandas.plotting import scatter_matrix
+>>> import matplotlib.pyplot as plt
+>>> from sklearn import model_selection
+>>> from sklearn.metrics import classification_report
+>>> from sklearn.metrics import confusion_matrix
+>>> from sklearn.metrics import accuracy_score
+>>> from sklearn.linear_model import LogisticRegression
+>>> from sklearn.tree import DecisionTreeClassifier
+>>> from sklearn.neighbors import KNeighborsClassifier
+>>> from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+>>> from sklearn.naive_bayes import GaussianNB
+>>> from sklearn.svm import SVC
+>>> url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"
+>>> names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+>>> dataset = pandas.read_csv(url, names=names)
+>>> # shape
+... print(dataset.shape)
+(150, 5)
+>>> # head
+... print(dataset.head(20))
+    sepal-length  sepal-width     ...       petal-width        class
+0            5.1          3.5     ...               0.2  Iris-setosa
+1            4.9          3.0     ...               0.2  Iris-setosa
+2            4.7          3.2     ...               0.2  Iris-setosa
+3            4.6          3.1     ...               0.2  Iris-setosa
+4            5.0          3.6     ...               0.2  Iris-setosa
+5            5.4          3.9     ...               0.4  Iris-setosa
+6            4.6          3.4     ...               0.3  Iris-setosa
+7            5.0          3.4     ...               0.2  Iris-setosa
+8            4.4          2.9     ...               0.2  Iris-setosa
+9            4.9          3.1     ...               0.1  Iris-setosa
+10           5.4          3.7     ...               0.2  Iris-setosa
+11           4.8          3.4     ...               0.2  Iris-setosa
+12           4.8          3.0     ...               0.1  Iris-setosa
+13           4.3          3.0     ...               0.1  Iris-setosa
+14           5.8          4.0     ...               0.2  Iris-setosa
+15           5.7          4.4     ...               0.4  Iris-setosa
+16           5.4          3.9     ...               0.4  Iris-setosa
+17           5.1          3.5     ...               0.3  Iris-setosa
+18           5.7          3.8     ...               0.3  Iris-setosa
+19           5.1          3.8     ...               0.3  Iris-setosa
+
+[20 rows x 5 columns]
+>>> 
+>>> 2
+2
+>>> # descriptions
+... print(dataset.describe())
+       sepal-length  sepal-width  petal-length  petal-width
+count    150.000000   150.000000    150.000000   150.000000
+mean       5.843333     3.054000      3.758667     1.198667
+std        0.828066     0.433594      1.764420     0.763161
+min        4.300000     2.000000      1.000000     0.100000
+25%        5.100000     2.800000      1.600000     0.300000
+50%        5.800000     3.000000      4.350000     1.300000
+75%        6.400000     3.300000      5.100000     1.800000
+max        7.900000     4.400000      6.900000     2.500000
+>>> 
+>>> 2
+2
+>>> # class distribution
+... print(dataset.groupby('class').size())
+class
+Iris-setosa        50
+Iris-versicolor    50
+Iris-virginica     50
+dtype: int64
+>>> 
+>>> # box and whisker plots
+... dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+plt.show()
+1
+2
+3
+# box and whisker plots
+dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+plt.show()
+sepal-length       AxesSubplot(0.125,0.53;0.352273x0.35)
+sepal-width     AxesSubplot(0.547727,0.53;0.352273x0.35)
+petal-length       AxesSubplot(0.125,0.11;0.352273x0.35)
+petal-width     AxesSubplot(0.547727,0.11;0.352273x0.35)
+dtype: object
+>>> plt.show()
+>>> 1
+1
+>>> 2
+2
+>>> 3
+3
+>>> # box and whisker plots
+... dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+sepal-length       AxesSubplot(0.125,0.53;0.352273x0.35)
+sepal-width     AxesSubplot(0.547727,0.53;0.352273x0.35)
+petal-length       AxesSubplot(0.125,0.11;0.352273x0.35)
+petal-width     AxesSubplot(0.547727,0.11;0.352273x0.35)
+dtype: object
+>>> plt.show()
+>>> 
+>>> 1
+1
+>>> 2
+2
+>>> 3
+3
+>>> # histograms
+... dataset.hist()
+array([[<matplotlib.axes._subplots.AxesSubplot object at 0x1a19f9b908>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1a4b1278>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1a4d8908>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1a503f98>]],
+      dtype=object)
+>>> plt.show()
+
+
+# scatter plot matrix
+scatter_matrix(dataset)
+plt.show()
+1
+2
+3
+# scatter plot matrix
+scatter_matrix(dataset)
+plt.show()
+
+  
+
+>>> 
+>>> 
+>>> # scatter plot matrix
+... scatter_matrix(dataset)
+array([[<matplotlib.axes._subplots.AxesSubplot object at 0x1a1a5f9b00>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bddad68>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1be0c438>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1be32ac8>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1be64198>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1be641d0>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1beb5eb8>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bee6588>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1bf10c18>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bf412e8>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bf6a978>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bf9f048>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1bfc56d8>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1bfecd68>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c01f438>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c046ac8>]],
+      dtype=object)
+>>> plt.show()
+>>> 1
+1
+>>> 2
+2
+>>> 3
+3
+>>> # scatter plot matrix
+... scatter_matrix(dataset)
+array([[<matplotlib.axes._subplots.AxesSubplot object at 0x1a19f67a20>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a198019e8>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c13b0b8>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a19f62e10>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1989af98>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1989af60>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a19f24240>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a198328d0>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a1981ff60>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a19ecd630>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1986fcc0>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a19e7e390>],
+       [<matplotlib.axes._subplots.AxesSubplot object at 0x1a19e84a20>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c1760f0>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c19f780>,
+        <matplotlib.axes._subplots.AxesSubplot object at 0x1a1c1c6e10>]],
+      dtype=object)
+>>> plt.show()
+>>> 
+>>> 
+>>> 
+>>> array = dataset.values
+>>> X = array[:,0:4]
+>>> Y = array[:,4]
+>>> validation_size = 0.20
+>>> seed = 7
+>>> X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size, random_state=seed)
+>>> seed = 7
+>>> scoring = 'accuracy'
+>>> 4
+4
+>>> 5
+5
+>>> 6
+6
+>>> 7
+7
+>>> 8
+8
+>>> 9
+9
+>>> 10
+10
+>>> 11
+11
+>>> 12
+12
+>>> 13
+13
+>>> 14
+14
+>>> 15
+15
+>>> 16
+16
+>>> 17
+17
+>>> 18
+18
+>>> # Spot Check Algorithms
+... models = []
+>>> models.append(('LR', LogisticRegression()))
+>>> models.append(('LDA', LinearDiscriminantAnalysis()))
+>>> models.append(('KNN', KNeighborsClassifier()))
+>>> models.append(('CART', DecisionTreeClassifier()))
+>>> models.append(('NB', GaussianNB()))
+>>> models.append(('SVM', SVC()))
+>>> # evaluate each model in turn
+... results = []
+>>> names = []
+>>> for name, model in models:
+...     kfold = model_selection.KFold(n_splits=10, random_state=seed)
+...     cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
+...     results.append(cv_results)
+...     names.append(name)
+...     msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+...     print(msg)
+... 
+LR: 0.966667 (0.040825)
+LDA: 0.975000 (0.038188)
+KNN: 0.983333 (0.033333)
+CART: 0.975000 (0.038188)
+NB: 0.975000 (0.053359)
+SVM: 0.991667 (0.025000)
+>>> fig = plt.figure()
+>>> fig.suptitle('Algorithm Comparison')
+Text(0.5,0.98,'Algorithm Comparison')
+>>> ax = fig.add_subplot(111)
+>>> plt.boxplot(results)
+{'whiskers': [<matplotlib.lines.Line2D object at 0x1a1c3c0080>, <matplotlib.lines.Line2D object at 0x1a1c3c0518>, <matplotlib.lines.Line2D object at 0x1a1c3c7e48>, <matplotlib.lines.Line2D object at 0x1a1c3d22b0>, <matplotlib.lines.Line2D object at 0x1a1c3dabe0>, <matplotlib.lines.Line2D object at 0x1a1c3e2048>, <matplotlib.lines.Line2D object at 0x1a1c3e9978>, <matplotlib.lines.Line2D object at 0x1a1c3e9da0>, <matplotlib.lines.Line2D object at 0x1a1c3fc710>, <matplotlib.lines.Line2D object at 0x1a1c3fcb38>, <matplotlib.lines.Line2D object at 0x1a1c40f4a8>, <matplotlib.lines.Line2D object at 0x1a1c40f8d0>], 'caps': [<matplotlib.lines.Line2D object at 0x1a1c3c0940>, <matplotlib.lines.Line2D object at 0x1a1c3c0d68>, <matplotlib.lines.Line2D object at 0x1a1c3d26d8>, <matplotlib.lines.Line2D object at 0x1a1c3d2b00>, <matplotlib.lines.Line2D object at 0x1a1c3e2470>, <matplotlib.lines.Line2D object at 0x1a1c3e2898>, <matplotlib.lines.Line2D object at 0x1a1c3f4208>, <matplotlib.lines.Line2D object at 0x1a1c3f4630>, <matplotlib.lines.Line2D object at 0x1a1c3fcf60>, <matplotlib.lines.Line2D object at 0x1a1c4053c8>, <matplotlib.lines.Line2D object at 0x1a1c40fcf8>, <matplotlib.lines.Line2D object at 0x1a1c418160>], 'boxes': [<matplotlib.lines.Line2D object at 0x1a1c3baef0>, <matplotlib.lines.Line2D object at 0x1a1c3c79e8>, <matplotlib.lines.Line2D object at 0x1a1c3da780>, <matplotlib.lines.Line2D object at 0x1a1c3e9518>, <matplotlib.lines.Line2D object at 0x1a1c3fc2b0>, <matplotlib.lines.Line2D object at 0x1a1c40f048>], 'medians': [<matplotlib.lines.Line2D object at 0x1a1c3c71d0>, <matplotlib.lines.Line2D object at 0x1a1c3d2f28>, <matplotlib.lines.Line2D object at 0x1a1c3e2cc0>, <matplotlib.lines.Line2D object at 0x1a1c3f4a58>, <matplotlib.lines.Line2D object at 0x1a1c4057f0>, <matplotlib.lines.Line2D object at 0x1a1c418588>], 'fliers': [<matplotlib.lines.Line2D object at 0x1a1c3c75f8>, <matplotlib.lines.Line2D object at 0x1a1c3da390>, <matplotlib.lines.Line2D object at 0x1a1c3e9128>, <matplotlib.lines.Line2D object at 0x1a1c3f4e80>, <matplotlib.lines.Line2D object at 0x1a1c405c18>, <matplotlib.lines.Line2D object at 0x1a1c4189b0>], 'means': []}
+>>> ax.set_xticklabels(names)
+[Text(0,0,'LR'), Text(0,0,'LDA'), Text(0,0,'KNN'), Text(0,0,'CART'), Text(0,0,'NB'), Text(0,0,'SVM')]
+>>> plt.show()
+>>> 2
+2
+>>> 3
+3
+>>> 4
+4
+>>> 5
+5
+>>> 6
+6
+>>> 7
+7
+>>> # Make predictions on validation dataset
+... knn = KNeighborsClassifier()
+>>> knn.fit(X_train, Y_train)
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+>>> predictions = knn.predict(X_validation)
+>>> print(accuracy_score(Y_validation, predictions))
+0.9
+>>> print(confusion_matrix(Y_validation, predictions))
+[[ 7  0  0]
+ [ 0 11  1]
+ [ 0  2  9]]
+>>> print(classification_report(Y_validation, predictions))
+                 precision    recall  f1-score   support
+
+    Iris-setosa       1.00      1.00      1.00         7
+Iris-versicolor       0.85      0.92      0.88        12
+ Iris-virginica       0.90      0.82      0.86        11
+
+    avg / total       0.90      0.90      0.90        30
+
+>>> 
